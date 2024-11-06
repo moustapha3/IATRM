@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Animation</title>
+    <style>
+        :root {
+            --EVA-ROTATION-DURATION: 4s;
+            --WAVE-COLOR: red; /* Couleur pour l'oscillation */
+        }
+        body {
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000000;
+            color: white; /* Ajout de couleur de texte pour le contraste */
+        }
+        .modelViewPort {
+            perspective: 1000px;
+            width: 20rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            overflow: hidden;
+        }
+        .eva {
+            transform-style: preserve-3d;
+            animation: rotateRight var(--EVA-ROTATION-DURATION) linear infinite alternate;
+        }
+        .head {
+            position: relative;
+            width: 6rem;
+            height: 4rem;
+            border-radius: 48% 53% 45% 55% / 79% 79% 20% 22%;
+            background: linear-gradient(to right, white 45%, gray);
+        }
+        .eyeChamber {
+            width: 4.5rem;
+            height: 2.75rem;
+            position: relative;
+            left: 50%;
+            top: 55%;
+            border-radius: 45% 53% 45% 48% / 62% 59% 35% 34%;
+            background-color: #0C203C;
+            box-shadow: 0px 0px 2px 2px white, inset 0px 0px 0px 2px black;
+            transform: translate(-50%, -50%);
+            animation: moveRight var(--EVA-ROTATION-DURATION) linear infinite alternate;
+        }
+        .eye {
+            width: 1.2rem;
+            height: 1.5rem;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .eye:first-child {
+            left: 12px;
+            top: 50%;
+            background: repeating-linear-gradient(
+                65deg,
+                #9bdaeb 0px,
+                #9bdaeb 1px,
+                white 2px
+            );
+            box-shadow: inset 0px 0px 5px #04B8D5, 0px  0px 15px 1px #0bdaeb;
+            transform: translate(0, -50%) rotate(-65deg);
+        }
+        .eye:nth-child(2) {
+            right: 12px;
+            top: 50%;
+            background: repeating-linear-gradient(
+                -65deg,
+                #9bdaeb 0px,
+                #9bdaeb 1px,
+                white 2px
+            );
+            box-shadow: inset 0px 0px 5px #04B8D5, 0px  0px 15px 1px #0bdaeb;
+            transform: translate(0, -50%) rotate(65deg);
+        }
+        .body {
+            width: 6rem;
+            height: 7rem;
+            position: relative;
+            margin-block-start: 0.25rem;
+            border-radius: 47% 53% 45% 55% / 12% 9% 90% 88%;
+            background: linear-gradient(to right, white 35%, gray);
+        }
+        .hand {
+            position: absolute;
+            left: -1.5rem;
+            top: .75rem;
+            width: 2rem;
+            height: 5.5rem;
+            border-radius: 40%;
+            background: linear-gradient(to left, white 15%, gray);
+            box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.25);
+            transform: rotateY(55deg) rotateZ(10deg);
+        }
+        .hand:first-child {
+            animation: compensateRotation var(--EVA-ROTATION-DURATION) linear infinite alternate;
+        }
+        .hand:nth-child(2) {
+            left: 92%;
+            background: linear-gradient(to right, white 15%, gray);
+            transform: rotateY(55deg) rotateZ(-10deg);
+            animation: compensateRotationRight var(--EVA-ROTATION-DURATION) linear infinite alternate;
+        }
+        .scannerThing {
+            width: 0;
+            height: 0;
+            position: absolute;
+            left: 60%;
+            top: 10%;
+            border-top: 180px solid #9bdaeb;
+            border-left: 250px solid transparent;
+            border-right: 250px solid transparent;
+            transform-origin: top left;
+            mask: linear-gradient(to right, white, transparent 35%);
+            animation: glow 2s cubic-bezier(0.86, 0, 0.07, 1) infinite;
+        }
+        .scannerOrigin {
+            position: absolute;
+            width: 8px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            left: 60%;
+            top: 10%;
+            background: #9bdaeb;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+            animation: moveRight var(--EVA-ROTATION-DURATION) linear infinite;
+        }
+        @keyframes rotateRight {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(25deg);
+            }
+        }
+        @keyframes moveRight {
+            from {
+                transform: translate(-50%, -50%);
+            }
+            to {
+                transform: translate(-40%, -50%);
+            }
+        }
+        @keyframes compensateRotation {
+            from {
+                transform: rotateY(55deg) rotateZ(10deg);
+            }
+            to {
+                transform: rotateY(30deg) rotateZ(10deg);
+            }
+        }
+        @keyframes compensateRotationRight {
+            from {
+                transform: rotateY(55deg) rotateZ(-10deg);
+            }
+            to {
+                transform: rotateY(70deg) rotateZ(-10deg);
+            }
+        }
+        @keyframes glow {
+            from {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            45% {
+                transform: rotate(-25deg);
+            }
+            75% {
+                transform: rotate(5deg);
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Styles pour la barre d'enregistrement */
+        .audio-container {
+            margin-top: 5px;
+            margin-bottom: 7px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .record-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #04B8D5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .record-button:hover {
+            background-color: #03a2b0;
+        }
+        /* Styles pour le canevas */
+    #canvas {
+        width: 100%;  /* Remplir entièrement l'élément parent */
+        height: 100%; /* Remplir entièrement l'élément parent */
+        background: rgba(0, 0, 0, 0); /* Fond transparent */
+        border-radius: 45% 53% 45% 48% / 62% 59% 35% 34%; /* Adapte aux coins du parent */
+    }
+
+        /* Styles pour le formulaire */
+        /* Styles pour le formulaire */
+        .form-container {
+            background-color: #00000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #04B8D5;
+            border-radius: 5px;
+            background-color: #000000;
+            color: white;
+        }
+        .form-container {
+            background-color: #00000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #04B8D5;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #001A4B;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .form-group select:focus {
+            border-color: #03a2b0;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #04B8D5;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-container button:hover {
+            background-color: #03a2b0;
+        }
+        .card {
+    background-color: #f8f9fa; /* Couleur de fond de la carte */
+    border: 1px solid #dee2e6; /* Bordure de la carte */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre */
+    margin: 20px; /* Marge autour de la carte */
+    padding: 15px; /* Remplissage à l'intérieur de la carte */
+    max-width: 500px; /* Largeur maximale de la carte augmentée de 5 cm (environ 200px) */
+}
+
+#header {
+    margin-bottom: 10px; /* Espace sous le header */
+}
+
+.card-body {
+    padding: 10px; /* Remplissage à l'intérieur du corps de la carte */
+}
+
+.message {
+    margin: 5px 0; /* Espace entre les messages */
+    font-size: 16px; /* Taille de police des messages */
+    color: #333; /* Couleur du texte */
+}
+
+#lang-section {
+    font-weight: bold; /* Mettre en gras le texte de la langue détectée */
+}
+       /* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+        /* Styles pour la barre de navigation */
+        nav {
+            background-color: #04B8D5; /* Couleur de fond de la barre de navigation */
+            width: 100%;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+<nav>
+    <a href="#home">Accueil</a>
+    <a href="#about">À Propos</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+</nav>
+<!-- Canevas pour afficher l'oscillation -->
+
+<div class="modelViewPort">
+    <!-- Boîte de dialogue modale pour afficher le résumé -->
+  <div class="eva">
+    <div class="head">
+      <div class="eyeChamber">
+        <div class="eye"></div>
+        <div class="eye"></div>
+           <br>
+      </div>
+    </div>
+    <div class="body">
+      <div class="hand"></div>
+      <div class="hand"></div>
+      <div class='scannerOrigin'></div>
+      <br>
+                             <canvas id="canvas"></canvas>
+
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Barre d'enregistrement audio -->
+<div class="audio-container">
+    <button class="record-button" onclick="startRecording()">Enregistrer</button>
+    <button class="record-button" method="post" onclick="stopRecording()" style="margin-left: 10px;">Arrêter</button>
+</div>
+
+<div class="form-container">
+    <form id="audio-upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="audioFile">Joindre un fichier audio</label>
+            <input type="file" id="audioFile" name="file" accept="audio/*" required>
+        </div>
+        <button type="submit">Transcrire</button>
+    </form>
+</div>
+        <h3>Assistant de transcription</h3>
+<div class="card">
+    <div id="header">
+    </div>
+<div class="card-body">
+    {% if text and lang %}
+        <div id="message-section">
+            <p class="message" id="text"><strong>Texte transcrit :</strong></p>
+            <p class="message" id="lang-section"><strong>Langue détectée :</strong> {{ lang }}</p>
+        </div>
+    </div>
+    <div align="center">
+    <button class="record-button" style="margin-left: 10px;">Resume</button>
+    <button class="record-button" style="margin-right: 10px;">Traduire</button>
+    </div>
+    {% endif %}
+
+</div>
+ <div align="center" class="popup" onclick="myFunction()">Click me!
+  <span class="popuptext" id="myPopup">{{ summary }}</span>
+</div>
+</body>
+
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let audioContext;
+    let analyser;
+
+    async function startRecording() {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+
+        // Initialiser l'API Web Audio
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
+        analyser.fftSize = 2048;
+
+        audioChunks = [];
+
+        // Dessiner l'oscillation du signal audio
+        draw();
+
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
+    }
+
+    function stopRecording() {
+        mediaRecorder.stop();
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const a = document.createElement('a');
+            a.href = audioUrl;
+            a.download = 'audio.wav';
+            a.textContent = 'Télécharger l\'audio';
+            document.body.appendChild(a);
+        };
+    }
+
+    function draw() {
+        requestAnimationFrame(draw);
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(dataArray);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Effacer le canevas avant de redessiner
+
+        const amplitudeFactor = 5; // Facteur pour ajuster l'amplitude
+        const midPoint = canvas.height/2 ; // Point central pour dessiner la courbe
+        const step = canvas.width / dataArray.length; // Étape entre chaque point
+
+        ctx.beginPath();
+        ctx.moveTo(0, midPoint); // Début de la courbe
+
+        for (let i = 0; i < dataArray.length; i++) {
+            const amplitude = (dataArray[i] / 255) * amplitudeFactor; // Amplitude normalisée
+            const x = i * step;
+            const y = midPoint - amplitude * 20; // Ajustement de la position Y
+            ctx.lineTo(x, y); // Tracer la ligne
+        }
+
+        ctx.strokeStyle = 'red'; // Couleur de la courbe
+        ctx.lineWidth = 1; // Épaisseur de la ligne
+        ctx.stroke(); // Dessiner la courbe
+    }
+
+    const text = "{{ text|escapejs}}"
+    const element = document.getElementById("text");
+    let index = 0;
+    function typeLetterByLetter() {
+        if (index < text.length) {
+            element.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeLetterByLetter, 100);
+        }
+    }
+    typeLetterByLetter();
+    // When the user clicks on <div>, open the popup
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
+
+</html>

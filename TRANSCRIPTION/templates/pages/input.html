@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row mt-8 justify-content-center">
+    <div class="col-lg-7 mb-lg-0 mb-4">
+        <div class="card text-center">
+            <div class="card-body p-3">
+                <h2>Upload .csv</h2>
+                <form method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+                    {% csrf_token %}
+                    <input type="file" name="myfile" accept=".csv" class="custom-file-input mb-3">
+                    <button id="startButton" type="submit" class="btn btn-prediction">Prediction</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Spinner -->
+<div id="spinnerContainer" class="text-center" style="display: none; margin-top: 20px;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div id="loadingText" style="margin-top: 10px;">Chargement en cours...</div>
+</div>
+
+<style>
+    .custom-file-input {
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .custom-file-input:hover {
+        color: #d63384;
+    }
+
+    .btn-prediction {
+        background-color: #82d616;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .btn-prediction:hover {
+        background-color: #d63384;
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+</style>
+
+<script>
+    document.getElementById("startButton").addEventListener("click", function() {
+        var spinnerContainer = document.getElementById("spinnerContainer");
+
+        // Affiche le spinner lors du clic
+        spinnerContainer.style.display = "block";
+
+        // Cache le bouton de prédiction pendant le chargement
+        document.getElementById("startButton").style.display = "none";
+    });
+</script>
+{% endblock content %}

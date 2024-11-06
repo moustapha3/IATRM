@@ -1,0 +1,549 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Chiffres d'Affaires</p>
+                <h5 class="font-weight-bolder mb-0">
+                  533,3 M. CFA
+                  <span class="text-success text-sm font-weight-bolder">+55%</span>
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Ventes d'Énergie</p>
+                <h5 class="font-weight-bolder mb-0">
+                  2,300 GWh
+                  <span class="text-success text-sm font-weight-bolder">+3%</span>
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-chart-bar-32 text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Nombre de Clients</p>
+                <h5 class="font-weight-bolder mb-0">
+                  +3,462 K
+                  <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="fas fa-users text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Nombre de Fraudeurs</p>
+                <h5 class="font-weight-bolder mb-0">
+                  1,034 K
+                  <span class="text-success text-sm font-weight-bolder">+5%</span>
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <span style="position: relative; display: inline-block;">
+                  <i class="fas fa-users text-lg opacity-10" aria-hidden="true"></i>
+                  <i class="fas fa-ban fa-2x opacity-20" aria-hidden="true" style="position: absolute; top: 150%; left: 120%; transform: translate(-100%, -100%);"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-lg-6 mb-lg-0 mb-4">
+      <div class="card z-index-2">
+        <div class="card-header pb-0">
+          <h6>Aperçu des ventes</h6>
+          <p class="text-sm">
+            <i class="fa fa-arrow-up text-success"></i>
+            <span class="font-weight-bold">4% de plus</span> en 2024
+          </p>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 mb-lg-0 mb-4">
+      <div class="card z-index-2">
+        <div class="card-header pb-0">
+          <h6>Courbe de Charge</h6>
+          <p class="text-sm">
+            <i class="fa fa-arrow-up text-success"></i>
+            <span class="font-weight-bold">4% de plus</span> en 2024
+          </p>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line-duplicate" class="chart-canvas" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+  <div class="col-lg-6 mb-lg-0 mb-4">
+    <div class="card z-index-2">
+      <div class="card-header pb-0">
+        <h6>Ventes par Catégories</h6>
+        <p class="text-sm">
+          <i class="fa fa-arrow-up text-success"></i>
+          <span class="font-weight-bold">Analyse des catégories</span>
+        </p>
+      </div>
+      <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-bars" class="chart-canvas" height="300"></canvas>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 mb-lg-0 mb-4">
+    <div class="card z-index-2">
+      <div class="card-header pb-0">
+        <h6>Répartition des Clients</h6>
+        <p class="text-sm">
+          <i class="fa fa-arrow-up text-success"></i>
+          <span class="font-weight-bold">Analyse des catégories</span>
+        </p>
+      </div>
+      <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-pie" height="300" style="max-width: 100%;"></canvas>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% include "includes/footer.html" %}
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block scripts %}
+
+  <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
+ <script>
+  // Configuration du premier graphique en barres
+var ctx = document.getElementById("chart-bars").getContext("2d");
+var xValues = {{labels|safe}};
+var yValues = {{values|safe}};
+const barColors = ["#d63384", "#fd7e14", "#00aba9", "#596CFF", "#596CFF"];
+
+new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      label: "Ventes",
+      tension: 0.4,
+      borderWidth: 0,
+      borderRadius: 8,  // Augmentation du rayon des coins
+      borderSkipped: false,
+      backgroundColor: barColors,
+      data: yValues,
+      maxBarThickness: 50  // Augmentation de l'épaisseur maximale des barres
+    }],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      }
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index',
+    },
+    scales: {
+      y: {
+        grid: {
+          drawBorder: false,
+          display: true,  // Affichage des lignes de la grille pour plus de lisibilité
+          drawOnChartArea: true,
+          drawTicks: false,
+          borderDash: [5, 5]
+        },
+        ticks: {
+          suggestedMin: 0,
+          suggestedMax: 1000,  // Augmentation de la valeur maximale suggérée
+          beginAtZero: true,
+          padding: 15,
+          font: {
+            size: 16,  // Augmentation de la taille de la police
+            family: "Open Sans",
+            style: 'normal',
+            lineHeight: 2
+          },
+          color: "#b2b9bf"  // Changement de la couleur des ticks pour un meilleur contraste
+        },
+      },
+      x: {
+        grid: {
+          drawBorder: false,
+          display: false,
+          drawOnChartArea: false,
+          drawTicks: false
+        },
+        ticks: {
+          font: {
+            size: 14,  // Augmentation de la taille des étiquettes sur l'axe X
+            family: "Open Sans",
+            style: 'normal',
+            lineHeight: 2
+          },
+          color: "#b2b9bf"  // Changement de la couleur des étiquettes pour plus de contraste
+        },
+      },
+    },
+  },
+});
+
+  // Configuration du premier graphique en ligne
+  var ctx2 = document.getElementById("chart-line").getContext("2d");
+  var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+  gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+  gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+  gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)');
+
+  var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+  gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+  gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+  gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)');
+
+  new Chart(ctx2, {
+    type: "line",
+    data: {
+      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: [
+        {
+          label: "2024",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#cb0c9f",
+          borderWidth: 3,
+          backgroundColor: gradientStroke1,
+          fill: true,
+          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          maxBarThickness: 6
+        },
+        {
+          label: "2023",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#575f9a",
+          borderWidth: 3,
+          backgroundColor: gradientStroke2,
+          fill: true,
+          data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+          maxBarThickness: 6
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index',
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            padding: 10,
+            color: '#b2b9bf',
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            color: '#b2b9bf',
+            padding: 20,
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+      },
+    },
+  });
+
+  // Configuration du graphique en ligne avec courbes supplémentaires
+  var ctx3 = document.getElementById("chart-line-duplicate").getContext("2d");
+  var gradientStroke3 = ctx3.createLinearGradient(0, 230, 0, 50);
+  gradientStroke3.addColorStop(1, 'rgba(75,192,192,0.2)');
+  gradientStroke3.addColorStop(0.2, 'rgba(75,192,192,0.0)');
+  gradientStroke3.addColorStop(0, 'rgba(75,192,192,0)');
+
+  var gradientStroke4 = ctx3.createLinearGradient(0, 230, 0, 50);
+  gradientStroke4.addColorStop(1, 'rgba(255,159,64,0.2)');
+  gradientStroke4.addColorStop(0.2, 'rgba(255,159,64,0.0)');
+  gradientStroke4.addColorStop(0, 'rgba(255,159,64,0)');
+
+  new Chart(ctx3, {
+    type: "line",
+    data: {
+      labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: [
+        {
+          label: "DPP",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#4bc0c0", // Teal
+          borderWidth: 3,
+          backgroundColor: gradientStroke3,
+          fill: true,
+          data: [60, 70, 200, 180, 400, 230, 330, 200, 450],
+        },
+        {
+          label: "DMP",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#ff9f40", // Orange
+          borderWidth: 3,
+          backgroundColor: gradientStroke4,
+          fill: true,
+          data: [45, 80, 260, 240, 470, 270, 360, 250, 480],
+        },
+        {
+          label: "PPP",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#ffcd56", // Yellow
+          borderWidth: 3,
+          backgroundColor: gradientStroke3,
+          fill: true,
+          data: [30, 60, 150, 190, 410, 220, 310, 180, 430],
+        },
+        {
+          label: "PMP",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#36a2eb", // Blue
+          borderWidth: 3,
+          backgroundColor: gradientStroke4,
+          fill: true,
+          data: [20, 50, 100, 130, 300, 210, 260, 170, 350],
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true, // Affichage de la légende
+          position: 'top', // Position de la légende
+          labels: {
+            color: "#b2b9bf",
+            font: {
+              size: 12,
+              family: "Open Sans",
+            }
+          }
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index',
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            padding: 10,
+            color: '#b2b9bf',
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false,
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: true,
+            color: '#b2b9bf',
+            padding: 20,
+            font: {
+              size: 11,
+              family: "Open Sans",
+              style: 'normal',
+              lineHeight: 2
+            },
+          }
+        },
+      },
+    },
+  });
+
+
+  // Configuration du graphique circulaire
+var ctxPie = document.getElementById("chart-pie").getContext("2d");
+
+// Les données des quatre catégories
+var pieData = {
+  labels: ["DPP", "DMP", "PPP", "PMP"],
+  datasets: [{
+    label: "Catégories",
+    data: [60, 45, 30, 20], // Remplace ces valeurs par les valeurs réelles de tes données
+    backgroundColor: [
+      "#4bc0c0",  // Teal pour DPP
+      "#ff9f40",  // Orange pour DMP
+      "#ffcd56",  // Jaune pour PPP
+      "#36a2eb"   // Bleu pour PMP
+    ],
+    hoverOffset: 4
+  }]
+};
+
+// Options pour le graphique circulaire
+var pieOptions = {
+  responsive: true,
+  maintainAspectRatio: false,  // Ajouté pour maintenir le ratio
+  plugins: {
+    legend: {
+      display: true,
+      position: 'top',
+      labels: {
+        color: "#b2b9bf",
+        font: {
+          size: 12,  // Ajusté pour être cohérent avec les autres graphiques
+          family: "Open Sans",
+        }
+      }
+    }
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index',  // Ajouté pour l'interaction
+  },
+  // Aucune échelle sur un graphique circulaire, mais ajoutons des options générales
+  elements: {
+    arc: {
+      borderWidth: 2,  // Bordure pour les segments
+    }
+  }
+};
+
+// Création du graphique circulaire
+new Chart(ctxPie, {
+  type: 'pie',
+  data: pieData,
+  options: pieOptions
+});
+
+</script>
+
+{% endblock scripts %}

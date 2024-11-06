@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-striped table-dark text-center">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Num Compteur</th>
+                <th scope="col">Usage</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Q1 (kWh)</th>
+                <th scope="col">Q2 (kWh)</th>
+                <th scope="col">Q3 (kWh)</th>
+                <th scope="col">Q4 (kWh)</th>
+                <th scope="col">Cons. Total (kWh)</th>
+                <th scope="col">Cons. Moyenne (kWh)</th>
+                <th scope="col">Q1 (F CFA)</th>
+                <th scope="col">Q2 (F CFA)</th>
+                <th scope="col">Q3 (F CFA)</th>
+                <th scope="col">Q4 (F CFA)</th>
+                <th scope="col">Montant Total (F CFA)</th>
+                <th scope="col">Montant Moyen (F CFA)</th>
+                <th scope="col">Fréquence Achat (jrs)</th>
+                <th scope="col">Étiquette</th>
+                <th scope="col">Résultat Visite</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for Client in Client_list %}
+            <tr {% if Client.RESULTATVISITE == 'BAC' or Client.RESULTATVISITE == 'BD' or Client.RESULTATVISITE == 'MPC' %}style="color:#f40d30;"{% endif %}>
+
+                <td>{{ Client.NUMCOMPTEUR }}</td>
+                <td>{{ Client.USAGE }}</td>
+                <td>{{ Client.ADRESSE }}</td>
+                <td>{{ Client.Cons_Q1 }}</td>
+                <td>{{ Client.Cons_Q2 }}</td>
+                <td>{{ Client.Cons_Q3 }}</td>
+                <td>{{ Client.Cons_Q4 }}</td>
+                <td>{{ Client.Cons_Total }}</td>
+                <td>{{ Client.Cons_Moyenne }}</td>
+                <td>{{ Client.Montant_Q1 }}</td>
+                <td>{{ Client.Montant_Q2 }}</td>
+                <td>{{ Client.Montant_Q3 }}</td>
+                <td>{{ Client.Montant_Q4 }}</td>
+                <td>{{ Client.Montant_Total }}</td>
+                <td>{{ Client.Montant_Moyen }}</td>
+                <td>{{ Client.Frequence_Achat }}</td>
+                <td>{{ Client.Label }}</td>
+                <td>{{ Client.RESULTATVISITE }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination -->
+   <div class="pagination text-center mt-3">
+    {% if Client_list.has_previous %}
+    <a href="{% url 'historique' %}?page={{ Client_list.previous_page_number }}{% if request.GET.search_query %}&search_query={{ request.GET.search_query }}{% endif %}" class="btn btn-primary">Précédente</a>
+    {% endif %}
+
+    <span class="btn btn-secondary mx-1">Page {{ Client_list.number }} sur {{ Client_list.paginator.num_pages }}</span>
+
+    {% if Client_list.has_next %}
+    <a href="{% url 'historique' %}?page={{ Client_list.next_page_number }}{% if request.GET.search_query %}&search_query={{ request.GET.search_query }}{% endif %}" class="btn btn-primary" style="background-color: #82d616;">Suivante</a>
+    {% endif %}
+</div>
+
+{% endblock content %}
